@@ -1,4 +1,4 @@
-package com.todoapi.entities.requests;
+package com.todoapi.domain.dto.request;
 
 import com.google.gson.Gson;
 import lombok.Getter;
