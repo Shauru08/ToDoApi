@@ -1,5 +1,8 @@
 package com.todoapi.service;
 
+import com.todoapi.domain.dto.user.request.UserCreateRequest;
+import com.todoapi.domain.dto.user.request.UserUpdateRequest;
+import com.todoapi.domain.dto.user.response.*;
 import com.todoapi.domain.entity.User;
 import com.todoapi.interfaces.service.UserServiceInterface;
 import com.todoapi.repository.UserRepository;
@@ -17,6 +20,37 @@ public class UserService implements UserServiceInterface {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    @Override
+    public UserCreateResponse addUser(UserCreateRequest userCreateRequest) {
+        return null;
+    }
+
+    @Override
+    public UserListAllResponse getAllUsers() {
+        return null;
+    }
+
+    @Override
+    public UserListByIdResponse getUserById(Long id) {
+        return null;
+    }
+
+    @Override
+    public UserUpdateResponse updateUser(UserUpdateRequest userUpdateRequest) {
+        return null;
+    }
+
+    @Override
+    public UserDeleteResponse deleteUser(Long id) {
+        return null;
+    }
+
+
+
+
+
+    /*
 
     @Override
     public User addUser(User user) {
@@ -56,5 +90,5 @@ public class UserService implements UserServiceInterface {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
-    }
+    }*/
 }

@@ -1,12 +1,19 @@
 package com.todoapi.interfaces.service;
 
-import com.todoapi.domain.entity.User;
+import com.todoapi.domain.dto.user.request.UserCreateRequest;
+import com.todoapi.domain.dto.user.request.UserUpdateRequest;
+import com.todoapi.domain.dto.user.response.*;
+
 import java.util.List;
 
 public interface UserServiceInterface {
-    User addUser(User user);
-    List<User> getAllUsers();
-    User getUserById(Long id);
-    User updateUser(Long id, User user);
-    void deleteUser(Long id);
+    UserCreateResponse addUser(UserCreateRequest userCreateRequest);
+
+    UserListAllResponse getAllUsers();
+
+    UserListByIdResponse getUserById(Long id);
+
+    UserUpdateResponse updateUser(UserUpdateRequest userUpdateRequest);
+
+    UserDeleteResponse deleteUser(Long id);
 }

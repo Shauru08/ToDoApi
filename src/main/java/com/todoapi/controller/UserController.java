@@ -1,5 +1,8 @@
 package com.todoapi.controller;
 
+import com.todoapi.domain.dto.user.request.UserCreateRequest;
+import com.todoapi.domain.dto.user.request.UserUpdateRequest;
+import com.todoapi.domain.dto.user.response.*;
 import com.todoapi.domain.entity.User;
 import com.todoapi.interfaces.controller.UserControllerInterface;
 import com.todoapi.service.UserService;
@@ -22,29 +25,28 @@ public class UserController implements UserControllerInterface {
     }
 
     @Override
-    public ResponseEntity<User> addUser(User request) {
-        return ResponseEntity.ok().body(userService.addUser(request));
+    public ResponseEntity<UserCreateResponse> addUser(UserCreateRequest userCreateRequest) {
+        return ResponseEntity.ok().body(userService.addUser(userCreateRequest));
     }
 
     @Override
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<UserListAllResponse> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @Override
-    public ResponseEntity<User> getUserById(Long id) {
+    public ResponseEntity<UserListByIdResponse> getUserById(Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @Override
-    public ResponseEntity<User> updateUser(Long id, User user) {
-        return ResponseEntity.ok(userService.updateUser(id, user));
+    public ResponseEntity<UserUpdateResponse> updateUser(UserUpdateRequest userUpdateRequest) {
+        return ResponseEntity.ok(userService.updateUser(userUpdateRequest));
     }
 
     @Override
-    public ResponseEntity<Void> deleteUser(Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<UserDeleteResponse> deleteUser(Long id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
 }
