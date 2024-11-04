@@ -1,5 +1,6 @@
 package com.todoapi.domain.entity;
 
+import com.todoapi.domain.dto.role.request.RoleCreateRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -37,4 +38,12 @@ public class Role {
     )
     @Schema(hidden = true, required = false)
     private List<Permission> permissions;
+
+    public Role(RoleCreateRequest roleCreateRequest) {
+        this.name = roleCreateRequest.getName();
+        this.description = roleCreateRequest.getDescription();
+    }
+
+    public Role() {
+    }
 }

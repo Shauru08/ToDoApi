@@ -15,7 +15,7 @@ public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
+    @Schema(hidden = true)  // No se mostrará en la documentación de Swagger
     private Long id;
 
     @NotNull
@@ -26,6 +26,16 @@ public class Permission {
     private String description;
 
     @ManyToMany(mappedBy = "permissions")
-    @Schema(hidden = true, required = false)
+    @Schema(hidden = true)  // Las relaciones ManyToMany suelen estar ocultas en la API pública
     private List<Role> roles;
+
+    // Constructor vacío
+    public Permission() {
+    }
+
+    // Constructor para facilitar la creación de permisos desde el DTO (opcional)
+    public Permission(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

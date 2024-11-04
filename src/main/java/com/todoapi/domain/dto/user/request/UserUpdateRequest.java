@@ -1,5 +1,6 @@
 package com.todoapi.domain.dto.user.request;
 
+import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -40,4 +41,11 @@ public class UserUpdateRequest {
 
     @Schema(description = "Country", example = "USA", required = false)
     private String country;
+
+
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
 }

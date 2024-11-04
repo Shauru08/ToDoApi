@@ -33,7 +33,7 @@ public class TaskService implements TaskServiceInterface {
         TaskCreateResponse taskCreateResponse = new TaskCreateResponse();
         try {
             logger.info("AddTask [Init]");
-            logger.info(String.format("Request [%s]", taskCreateRequest));
+            logger.info(String.format("Request: {}", taskCreateRequest));
 
             //Create new task entity
             Task newTask = new Task(taskCreateRequest);
@@ -45,10 +45,10 @@ public class TaskService implements TaskServiceInterface {
             taskCreateResponse.setErrorResponse(newTask.getId(), ErrorCodes.SUCCESS.getCode(), "Task created successfully");
 
         } catch (Exception ex) {
-            logger.error(String.format("An unknown error occurred while trying to create the task, Exception [%s]", ex.getMessage()), ex);
+            logger.error("An unknown error occurred while trying to create the task, Exception {}", ex.getMessage(), ex);
             taskCreateResponse.setErrorResponse(null, ErrorCodes.EXCEPTION.getCode(), "An unknown error occurred while trying to create the task");
         } finally {
-            logger.info(String.format("Response [%s]", taskCreateResponse));
+            logger.info("Response {}", taskCreateResponse);
             logger.info("AddTask [Fin]");
         }
         return taskCreateResponse;
@@ -71,10 +71,10 @@ public class TaskService implements TaskServiceInterface {
                 taskListAllResponse.setErrorResponse(null, ErrorCodes.NOT_FOUND.getCode(), "No task were found");
             }
         } catch (Exception ex) {
-            logger.error(String.format("An unknown error occurred while trying to collect the tasks, Exception [%s]", ex.getMessage()), ex);
+            logger.error("An unknown error occurred while trying to collect the tasks, Exception {}", ex.getMessage(), ex);
             taskListAllResponse.setErrorResponse(null, ErrorCodes.EXCEPTION.getCode(), "An unknown error occurred while trying to collect the tasks.");
         } finally {
-            logger.info(String.format("Response [%s]", taskListAllResponse));
+            logger.info(String.format("Response: {}", taskListAllResponse));
             logger.info("getAllTasks [Fin]");
         }
         return taskListAllResponse;
@@ -85,6 +85,7 @@ public class TaskService implements TaskServiceInterface {
         TaskListByIdResponse taskListByIdResponse = new TaskListByIdResponse();
         try {
             logger.info("getTaskById [Init]");
+            logger.info("TaskId: {}", taskId);
 
             // Call repository method to obtain the data of one task.
             Optional<Task> taskFound = taskRepository.findById(taskId);
@@ -97,10 +98,10 @@ public class TaskService implements TaskServiceInterface {
                 taskListByIdResponse.setErrorResponse(null, ErrorCodes.NOT_FOUND.getCode(), "Task Was Not Found");
             }
         } catch (Exception ex) {
-            logger.error(String.format("An unknown error occurred while looking for the task in the database. Exception: %s", ex.getMessage()), ex);
+            logger.error("An unknown error occurred while looking for the task in the database. Exception: {}", ex.getMessage(), ex);
             taskListByIdResponse.setErrorResponse(null, ErrorCodes.EXCEPTION.getCode(), "An unknown error occurred while looking for the task in the database.");
         } finally {
-            logger.info(String.format("Response: %s", taskListByIdResponse));
+            logger.info(String.format("Response: {}", taskListByIdResponse));
             logger.info("getTaskById [Fin]");
         }
         return taskListByIdResponse;
@@ -112,7 +113,7 @@ public class TaskService implements TaskServiceInterface {
         TaskListByUserResponse taskListByUserResponse = new TaskListByUserResponse();
         try {
             logger.info("getUserTasks [Init]");
-            logger.info("userId: {}", userId);
+            logger.info("UserId: {}", userId);
 
             // Call repository method to obtain the data of one task.
             List<Task> userTasks = taskRepository.findByUserId(userId);
@@ -124,10 +125,10 @@ public class TaskService implements TaskServiceInterface {
                 taskListByUserResponse.setErrorResponse(null, ErrorCodes.NOT_FOUND.getCode(), "No tasks were found for this user");
             }
         } catch (Exception ex) {
-            logger.error(String.format("An unknown error occurred while searching for this user tasks, Exception: %s", ex.getMessage()), ex);
+            logger.error("An unknown error occurred while searching for this user tasks, Exception: {}", ex.getMessage(), ex);
             taskListByUserResponse.setErrorResponse(null, ErrorCodes.EXCEPTION.getCode(), "An unknown error occurred while searching for this user tasks.");
         } finally {
-            logger.info(String.format("Response: %s", taskListByUserResponse));
+            logger.info(String.format("Response: {}", taskListByUserResponse));
             logger.info("getUserTasks [Fin]");
         }
         return taskListByUserResponse;
@@ -139,14 +140,14 @@ public class TaskService implements TaskServiceInterface {
         TaskUpdateResponse taskUpdateResponse = new TaskUpdateResponse();
         try {
             logger.info("updateTask [Init]");
-            logger.info(String.format("Request: %s, taskId: %d", taskUpdateRequest, taskId));
+            logger.info("Request: {}, taskId: {}", taskUpdateRequest, taskId);
 
             // Call repository method to obtain the data of one task.
             Optional<Task> foundTaskOptional = taskRepository.findById(taskId);
 
             if (foundTaskOptional.isPresent()) {
                 Task updateTask = foundTaskOptional.get();
-                logger.info(String.format("Task Found into the database %s", updateTask));
+                logger.info("Task Found into the database {}", updateTask);
 
                 if (taskUpdateRequest.getTitle() != null) {
                     updateTask.setTitle(taskUpdateRequest.getTitle());
@@ -177,10 +178,10 @@ public class TaskService implements TaskServiceInterface {
                 taskUpdateResponse.setErrorResponse(null, ErrorCodes.NOT_FOUND.getCode(), "The task couldn't be found");
             }
         } catch (Exception ex) {
-            logger.error(String.format("An unknown error occurred while trying to update the task, Exception: %s", ex.getMessage()), ex);
+            logger.error("An unknown error occurred while trying to update the task, Exception: {}", ex.getMessage(), ex);
             taskUpdateResponse.setErrorResponse(null, ErrorCodes.EXCEPTION.getCode(), "An unknown error occurred while trying to update the task.");
         } finally {
-            logger.info(String.format("Response: %s", taskUpdateResponse));
+            logger.info("Response: {}", taskUpdateResponse);
             logger.info("updateTask [Fin]");
         }
         return taskUpdateResponse;
@@ -191,7 +192,7 @@ public class TaskService implements TaskServiceInterface {
         TaskDeleteResponse taskDeleteResponse = new TaskDeleteResponse();
         try {
             logger.info("deleteTask [Init]");
-            logger.info(String.format("TaskId: %d", taskId));
+            logger.info(String.format("TaskId: {}", taskId));
 
             //If task exist in the db
             if (taskRepository.existsById(taskId)) {
@@ -205,10 +206,10 @@ public class TaskService implements TaskServiceInterface {
                 taskDeleteResponse.setErrorResponse(null, ErrorCodes.NOT_FOUND.getCode(), "Task was not found");
             }
         } catch (Exception ex) {
-            logger.error(String.format("An unknown error occurred while trying to delete the task, Exception [%s]", ex.getMessage()), ex);
+            logger.error("An unknown error occurred while trying to delete the task, Exception {}", ex.getMessage(), ex);
             taskDeleteResponse.setErrorResponse(null, ErrorCodes.EXCEPTION.getCode(), "An unknown error occurred while delete to create the task");
         } finally {
-            logger.info(String.format("Response [%s]", taskDeleteResponse));
+            logger.info(String.format("Response {}", taskDeleteResponse));
             logger.info("deleteTask [Fin]");
         }
         return taskDeleteResponse;
