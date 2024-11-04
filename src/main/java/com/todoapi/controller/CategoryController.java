@@ -5,18 +5,21 @@ import com.todoapi.domain.dto.category.request.CategoryUpdateRequest;
 import com.todoapi.domain.dto.category.response.*;
 import com.todoapi.interfaces.controller.CategoryControllerInterface;
 import com.todoapi.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/todoapi/cate")
+@Tag(name = "Category", description = "Category Controller")
+@RequestMapping("/todoapi/category")
 public class CategoryController implements CategoryControllerInterface {
 
     private static final Logger logger = LogManager.getLogger(CategoryController.class);

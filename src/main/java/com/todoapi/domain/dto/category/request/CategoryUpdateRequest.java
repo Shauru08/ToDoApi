@@ -16,6 +16,7 @@ public class CategoryUpdateRequest {
 
     @Schema(description = "Updated description of the category", example = "Tasks related to work")
     private String description;
+
     @Override
     public String toString() {
         Gson gson = new Gson();

@@ -17,7 +17,6 @@ public class CategoryCreateRequest {
     @Schema(description = "Description of the category", example = "Tasks related to work")
     private String description;
 
-
     @Override
     public String toString() {
         Gson gson = new Gson();

@@ -48,7 +48,8 @@ public interface UserControllerInterface {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = UserUpdateResponse.class)))
     })
     @PutMapping("/{id}")
-    ResponseEntity<UserUpdateResponse> updateUser(@RequestBody(description = "Updated details of the user", required = true) UserUpdateRequest userUpdateRequest);
+    ResponseEntity<UserUpdateResponse> updateUser(@RequestBody(description = "Updated details of the user", required = true) UserUpdateRequest userUpdateRequest,
+                                                  @PathVariable Long id);
 
     @Operation(summary = "Delete a user", description = "Deletes a user by their ID.")
     @ApiResponses(value = {

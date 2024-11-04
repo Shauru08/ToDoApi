@@ -18,6 +18,9 @@ public class UserUpdateRequest {
     @Schema(description = "Email", example = "user@example.com", required = true)
     private String email;
 
+    @Schema(description = "Password", example = "password123", required = false)
+    private String password;
+
     @Schema(description = "Name", example = "John", required = false)
     private String firstName;
 
@@ -41,7 +44,6 @@ public class UserUpdateRequest {
 
     @Schema(description = "Country", example = "USA", required = false)
     private String country;
-
 
     @Override
     public String toString() {
