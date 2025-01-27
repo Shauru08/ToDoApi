@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PriorityRepository extends JpaRepository<Priority, Long> {
-    // Aquí puedes añadir consultas personalizadas si es necesario
 }
