@@ -1,42 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
-    <Properties>
-        <Property name="LOG_PATTERN">
-            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
-        </Property>
-    </Properties>
+<Configuration status="DEBUG">
     <Appenders>
         <!-- Console Appender -->
-        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-
         <!-- Rolling File Appender -->
-        <RollingFile name="FileAppender" fileName="logs/app.log" filePattern="logs/app-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="AppAppender" filePattern="logs/$${date:yyyy-MM}/todoapi-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout>
-                <Pattern>${LOG_PATTERN}</Pattern>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - [%p] %m%n</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="10"/>
         </RollingFile>
-
     </Appenders>
     <Loggers>
-        <!-- Console Appender -->
-        <Logger name="com.todoapi" level="debug" additivity="false">
-            <AppenderRef ref="ConsoleAppender"/>
+        <Logger name="AppLogger" level="DEBUG" additivity="false">
+            <AppenderRef ref="AppAppender"/>
+            <AppenderRef ref="Console"/>
         </Logger>
-
         <Root level="info">
-            <AppenderRef ref="ConsoleAppender"/>
-            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppAppender"/>
         </Root>
-
-        <!-- Rolling File Appender -->
-        <Logger name="com.todoapi" level="debug" additivity="false">
-            <AppenderRef ref="FileAppender"/>
-        </Logger>
     </Loggers>
 </Configuration>
