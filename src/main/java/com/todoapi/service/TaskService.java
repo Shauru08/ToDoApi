@@ -3,10 +3,10 @@ package com.todoapi.service;
 import com.todoapi.domain.dto.task.request.TaskCreateRequest;
 import com.todoapi.domain.dto.task.request.TaskUpdateRequest;
 import com.todoapi.domain.dto.task.response.*;
-import com.todoapi.domain.entity.Task;
+import com.todoapi.domain.entity.*;
 import com.todoapi.domain.enums.ErrorCodes;
 import com.todoapi.interfaces.service.TaskServiceInterface;
-import com.todoapi.repository.TaskRepository;
+import com.todoapi.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,21 @@ import java.util.Optional;
 public class TaskService implements TaskServiceInterface {
 
     private final TaskRepository taskRepository;
+    private final TaskStatusRepository taskStatusRepository;
+    private final PriorityRepository priorityRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, TaskStatusRepository taskStatusRepository, PriorityRepository priorityRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
         this.taskRepository = taskRepository;
+        this.taskStatusRepository = taskStatusRepository;
+        this.priorityRepository = priorityRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
 
-    private static final Logger logger = LogManager.getLogger("AppLogger");
+    private static final Logger logger = LogManager.getLogger(TaskService.class);
 
     @Override
     public TaskCreateResponse addTask(TaskCreateRequest taskCreateRequest) {
@@ -35,8 +43,26 @@ public class TaskService implements TaskServiceInterface {
             logger.info("AddTask [Init]");
             logger.info(String.format("Request: {}", taskCreateRequest));
 
+            //Look for status value into the DB
+            TaskStatus defaultStatus = taskStatusRepository.findById(1L)
+                    .orElseThrow(() -> new IllegalStateException("Default status 'NotStarted' not found"));
+
+            //Look for priority into the DB
+            Priority priority = priorityRepository.findById(taskCreateRequest.getPriorityId())
+                    .orElseThrow(() -> new IllegalStateException("Selected priority not found into the DB"));
+
+            //Look for user into the DB
+            User user = userRepository.findById(taskCreateRequest.getUserId())
+                    .orElseThrow(() -> new IllegalStateException("User couldn't be found into the DB"));
+
+            // Look for categories in the DB
+            List<Category> categories = categoryRepository.findAllById(taskCreateRequest.getCategoryIds());
+            if (categories.isEmpty() && !taskCreateRequest.getCategoryIds().isEmpty()) {
+                throw new IllegalArgumentException("Some categories couldn't be found in the DB");
+            }
+
             //Create new task entity
-            Task newTask = new Task(taskCreateRequest);
+            Task newTask = new Task(taskCreateRequest, defaultStatus, priority, user,categories);
 
             //Call for repository method save to insert registry into the database
             taskRepository.save(newTask);
@@ -165,9 +191,9 @@ public class TaskService implements TaskServiceInterface {
                     updateTask.setEndDate(taskUpdateRequest.getEndDate());
                 }
 
-                if (taskUpdateRequest.getStatus() != null) {
+                /*if (taskUpdateRequest.getStatus() != null) {
                     updateTask.setStatus(taskUpdateRequest.getStatus());
-                }
+                }*/
 
                 // Save the updated task to the database
                 taskRepository.save(updateTask);

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/todoapi/task")
 public class TaskController implements TaskControllerInterface {
 
-    private static final Logger logger = LogManager.getLogger("AppLogger");
+    private static final Logger logger = LogManager.getLogger(TaskController.class);
 
     private final TaskService taskService;
 

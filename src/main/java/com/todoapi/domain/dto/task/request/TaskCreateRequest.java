@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.List;
 
 import java.util.Date;
 
@@ -32,9 +32,17 @@ public class TaskCreateRequest {
     @Schema(description = "End date of the task", example = "2024-08-10")
     private Date endDate;
 
-    @PositiveOrZero(message = "Status must be zero or positive")
-    @Schema(description = "Status of the task", example = "1")
-    private int status;
+    @NotNull(message = "A priority must be chosen for this task")
+    @Schema(description = "Priority of the Task", example = "1")
+    private long priorityId;
+
+    @NotNull(message = "Task must be owned by an user, please send a valid id")
+    @Schema(description = "User who owns the task", example = "1")
+    private long userId;
+
+    @NotNull(message = "Task must be categorized at least on one category")
+    @Schema(description = "List of categories that will be asigned to this task", example = "1,2,3,4,")
+    private List<Long> categoryIds;
 
     @Override
     public String toString() {

@@ -28,14 +28,17 @@ public class Task {
 
     private Date endDate;
 
-    private int status;
+    // Many tasks may have one status
+    @ManyToOne
+    @JoinColumn(name = "task_status_id") // Correct column name
+    private TaskStatus taskStatus;
 
-    // Relación con User (Muchos a Uno)
+    // Many tasks may belong to one user
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Relación con Category (Muchos a Muchos)
+    // Many tasks may belong to many categories
     @ManyToMany
     @JoinTable(
             name = "task_category",
@@ -44,22 +47,24 @@ public class Task {
     )
     private List<Category> categories;
 
-    // Relación con Priority (Muchos a Uno)
+    // Many tasks may have one priority
     @ManyToOne
     @JoinColumn(name = "priority_id")
     private Priority priority;
 
-    // Otros campos y métodos (si es necesario)...
-
+    //Methods
     public Task() {
     }
 
-    public Task(TaskCreateRequest taskCreateRequest) {
+    public Task(TaskCreateRequest taskCreateRequest, TaskStatus defaultStatus, Priority priority, User user, List<Category> categories) {
         this.title = taskCreateRequest.getTitle();
         this.description = taskCreateRequest.getDescription();
         this.startDate = taskCreateRequest.getStartDate();
         this.endDate = taskCreateRequest.getEndDate();
-        this.status = taskCreateRequest.getStatus();
+        this.taskStatus = defaultStatus;
+        this.priority = priority;
+        this.user = user;
+        this.categories = categories;
     }
 
     @Override
